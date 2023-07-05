@@ -1,0 +1,27 @@
+{
+  "secrets": {
+    "token": "Discord Bot Token",
+    "dbUrl": "MongoDB Database URL"
+  },
+  "channels": {
+    "logs": "Logs Channel ID",
+    "welcome": "Welcome Channel ID",
+    "reports": "Reports Channel ID",
+    "xpChannels" : {
+      "general": "General XP Channel ID"
+    },
+    "commands": "Commands Channel ID"
+  },
+  "guildId": "Guild ID",
+  "version": {
+    "major": 2,
+    "minor": 2,
+    "patch": 11,
+    "build": 1,
+    "identifier": "beta",
+    "classifier": "PATCH"
+  },
+  "api": {
+    "factsKey": "API KEY for factsAPI"
+  }
+}

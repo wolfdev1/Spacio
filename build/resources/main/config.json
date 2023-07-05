@@ -1,0 +1,27 @@
+{
+  "secrets": {
+    "token": "OTQ3NjE1ODU0MTE0MjYzMTEw.G8PqUN.gh7-Ax18r05fAnsVHe9RF41xk13SUHN7vEVFY8",
+    "dbUrl": "mongodb://mongo:a1M18HoRLVvNPZ5Oa4OW@containers-us-west-183.railway.app:6018"
+  },
+  "channels": {
+    "logs": "1107007858568085524",
+    "welcome": "1107007876066713791",
+    "reports": "1107007893259173938",
+    "xpChannels" : {
+      "general": "1107007694772125820"
+    },
+    "commands": "1107007768524771339"
+  },
+  "guildId": "1107007693950046379",
+  "version": {
+    "major": 2,
+    "minor": 2,
+    "patch": 11,
+    "build": 1,
+    "identifier": "beta",
+    "classifier": "PATCH"
+  },
+  "api": {
+    "factsKey": "hBcpHdIlxYJ08NuU5KbZvA==52nfvotrr82d81ic"
+  }
+}
