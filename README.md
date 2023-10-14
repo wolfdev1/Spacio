@@ -18,7 +18,7 @@ Spacio uses environment variables that you must configure before you can run it,
 - 'LOG_CHANNEL_ID' - The ID of the channel where the mod logs will be sent you
 - 'WELCOME_CHANNEL_ID' - The ID of the channel where the welcome messages will be sent you
 - 'COMMANDS_CHANNEL_ID' - The ID of the channel where the commands will be executed
-- 'XP_CHANNELS_ID' - This is a env group, you must create a env variable for each channel where you want to give XP to the users
+- Xp Channels Id - This is an env group, you must create a env variable for each channel where you want to give XP to the users, env var name -> 'XP_CHANNELNAME'
 - 'LOG_CHANNEL_ID' - The ID of the channel where the mod logs will be sent you
 - 'FACTS_API_KEY' - The API key of the [Facts API](https://api-ninjas.com/api/facts/)
 - 'DEFAULT_GUILD_ID' - The ID of the guild where the bot will be activated

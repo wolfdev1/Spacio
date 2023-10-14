@@ -71,7 +71,7 @@ public class BotConfig {
         Map<String, String> env = System.getenv();
 
         for (String key : env.keySet()) {
-            if (key.startsWith("XP_CHANNELS")) {
+            if (key.startsWith("XP_")) {
                 String value = env.get(key);
                 xpChannels.add(value);
             }
