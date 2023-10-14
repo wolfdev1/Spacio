@@ -1,14 +1,16 @@
 {
   "secrets": {
-    "token": "OTQ3NjE1ODU0MTE0MjYzMTEw.G8PqUN.gh7-Ax18r05fAnsVHe9RF41xk13SUHN7vEVFY8",
+    "token": "OTQ3NjE1ODU0MTE0MjYzMTEw.G3yDhp.WOc2JXJ0KwG2fLcgQnIIB4bWrLBrHMj291VFO4",
     "dbUrl": "mongodb://mongo:a1M18HoRLVvNPZ5Oa4OW@containers-us-west-183.railway.app:6018"
   },
   "channels": {
-    "logs": "1107007858568085524",
-    "welcome": "1107007876066713791",
-    "reports": "1107007893259173938",
+    "logs": "Logs Channel ID",
+    "welcome": "Welcome Channel ID",
+    "reports": "Reports Channel ID",
     "xpChannels" : {
-      "general": "1107007694772125820"
+      "general": "1107007694772125820",
+      "canal-xp2": "1128341622606811236",
+      "canal-xp3": "1128341657910255667"
     },
     "commands": "1107007768524771339"
   },
@@ -25,3 +27,4 @@
     "factsKey": "hBcpHdIlxYJ08NuU5KbZvA==52nfvotrr82d81ic"
   }
 }
+

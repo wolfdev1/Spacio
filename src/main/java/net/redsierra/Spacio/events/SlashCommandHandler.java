@@ -34,7 +34,7 @@ public class SlashCommandHandler extends ListenerAdapter {
 
         if (commands.containsKey(event.getName())) {
 
-            if (!event.getChannel().getId().equals(config.getCommandsChannel())) {
+            if (!event.getChannel().getId().equals(config.getCommandsChannelId())) {
                 assert event.getMember() != null;
                 if (!event.getMember().hasPermission(Permission.MANAGE_CHANNEL)) {
 
@@ -46,7 +46,7 @@ public class SlashCommandHandler extends ListenerAdapter {
             Command command = commands.get(event.getName());
             command.execute(new SlashCommandInteraction(event));
 
-            bot.logger.info("Attepting to execute command '" + event.getName() + "' from user " + event.getUser().getGlobalName());
+            bot.logger.info("Attempting to execute command '" + event.getName() + "' from user " + event.getUser().getGlobalName());
         }
 
     }

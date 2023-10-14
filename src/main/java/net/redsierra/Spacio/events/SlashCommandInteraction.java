@@ -11,5 +11,11 @@ public record SlashCommandInteraction(SlashCommandInteractionEvent event) {
         return event.getGuild();
     }
 
+    public SlashCommandInteractionEvent getEvent() {
+        return event;
+    }
+
+
+
 
 }

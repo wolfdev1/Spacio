@@ -32,7 +32,7 @@ public class Ready extends ListenerAdapter {
 
         Guild guild = event.getJDA().getGuildById(config.getDefaultGuildId());
         assert guild != null;
-        TextChannel channel = guild.getTextChannelById(config.getCommandsChannel());
+        TextChannel channel = guild.getTextChannelById(config.getCommandsChannelId());
         assert channel != null;
          try {
 

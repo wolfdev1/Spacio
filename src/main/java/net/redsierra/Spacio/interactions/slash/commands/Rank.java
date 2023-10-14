@@ -33,7 +33,7 @@ public class Rank extends Command {
 
     @Override
     public void execute(SlashCommandInteraction ev) {
-        SlashCommandInteractionEvent event = ev.event();
+        SlashCommandInteractionEvent event = ev.getEvent();
             Spacio bot = new Spacio();
             Logger logger = bot.logger;
             Database db = null;

@@ -8,13 +8,13 @@ import net.redsierra.Spacio.config.BotConfig;
 import net.redsierra.Spacio.database.Database;
 import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -60,11 +60,10 @@ public class MessageReceived extends ListenerAdapter {
             xpCooldown.put(userId, Instant.now().plusSeconds(COOLDOWN_PERIOD));
 
         } else {
+            List<String> xpChannels = config.getXPChannels();
 
-            JSONObject xpChannels;
-            xpChannels = config.getXPChannels();
 
-            if(!xpChannels.containsValue(event.getChannel().getId())) return;
+            if(!xpChannels.contains(event.getChannel().getId())) return;
 
             if(xpCooldown.containsKey(userId)) {
                 Instant lastTime = xpCooldown.get(userId);
@@ -90,7 +89,8 @@ public class MessageReceived extends ListenerAdapter {
                 user.append("level", currentLevel + 1);
                 user.append("xp", 0);
                 collection.replaceOne(new Document("userId", userId), user);
-                event.getChannel().sendMessage("Woooow "+event.getAuthor().getAsMention()+"! You have leveled up to level " + (currentLevel + 1) + "!").queue();
+                event.getChannel().sendMessage("WOW "+event.getAuthor().getAsMention()+"! You have leveled up to level " +
+                        (currentLevel + 1) + "!").queue();
                 logger.info("User " + event.getAuthor().getGlobalName() + " has leveled up to level " + (currentLevel + 1) + "!");
             }
 
