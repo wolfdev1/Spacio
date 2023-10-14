@@ -37,7 +37,7 @@ shadowJar {
         attributes 'Main-Class': 'net.redsierra.Spacio.Spacio'
     }
     archiveBaseName.set('Spacio')
-    archiveVersion.set('1.1')
+    archiveVersion.set('2.3')
     archiveFileName.set(str)
 }
 
