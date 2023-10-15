@@ -67,48 +67,43 @@ public class Rank extends Command {
     }
 
     public InputStream getImage(User user, int xp, int level) throws IOException, FontFormatException {
-
         Resources resources = new Resources();
+        BufferedImage backgroundImage = ImageIO.read(resources.getResourceFile("img/rank_bg.png"));
 
-        BufferedImage backgroundImage = null;
-        URL url = new URL(Objects.requireNonNull(user.getAvatarUrl()));
-        BufferedImage pfp =  ImageIO.read(url);
-        try {
-            backgroundImage = ImageIO.read(resources.getResourceFile("img/rank_bg.png"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        BufferedImage pfp = ImageIO.read(new URL(Objects.requireNonNull(user.getAvatarUrl())));
 
         BufferedImage image = new BufferedImage(736, 414, BufferedImage.TYPE_INT_RGB);
+
         Font ftest = Font.createFont(Font.TRUETYPE_FONT, resources.getResourceFile("font/OpenSans-ExtraBold.ttf"));
         Font font = ftest.deriveFont(Font.PLAIN, 34);
         Font font1 = ftest.deriveFont(Font.PLAIN, 22);
-        Graphics g = image.getGraphics();
-        g.setColor(Color.decode("#ffffff"));
-        g.fillRect(0, 0, 947, 418);
-        g.setFont(font);
+        Font font2 = ftest.deriveFont(Font.PLAIN, 38);
 
+        Graphics g = image.getGraphics();
 
         g.drawImage(pfp, 91, 150, 221, 207, null);
         g.drawImage(backgroundImage, 0, 0, null);
+
+        g.setColor(Color.decode("#ffffff"));
+        g.setFont(font);
+
         g.drawString(user.getGlobalName(), 90, 87);
+
         g.setFont(font1);
         g.setColor(Color.decode("#c9daec"));
         g.drawString(user.getId(), 390, 200);
-        Font font2 = ftest.deriveFont(Font.PLAIN, 38);
+
         g.setFont(font2);
         g.setColor(Color.decode("#c9daec"));
         int requiredXP = (level + 1) * 350;
-        g.drawString("Level "+level, 435, 250);
-        g.drawString( xp + "/"+requiredXP, 425, 310);
+        g.drawString("Level " + level, 435, 250);
+        g.drawString(xp + "/" + requiredXP, 425, 310);
 
         g.dispose();
 
-
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        ImageIO.write(image,"png", os);
-        InputStream fis = new ByteArrayInputStream(os.toByteArray());
-        return fis;
+        try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
+            ImageIO.write(image, "png", os);
+            return new ByteArrayInputStream(os.toByteArray());
+        }
     }
 }

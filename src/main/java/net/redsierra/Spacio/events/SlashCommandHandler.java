@@ -26,6 +26,11 @@ public class SlashCommandHandler extends ListenerAdapter {
         BotConfig config;
         config = new BotConfig();
 
+        if (event.getGuild() == null) {
+            event.reply("This command can only be used in a server.").setEphemeral(true).queue();
+            return;
+        }
+
         if (commands.containsKey(event.getName())) {
 
             if (!event.getChannel().getId().equals(config.getCommandsChannelId())) {
@@ -40,9 +45,14 @@ public class SlashCommandHandler extends ListenerAdapter {
             Command command = commands.get(event.getName());
             command.execute(new SlashCommandInteraction(event));
 
-            bot.logger.info("Attempting to execute command '" + event.getName() + "' from user " + event.getUser().getGlobalName());
+            bot.logger.info("Attempting to execute command '{}' from user {} ({}) in guild {} ({})",
+                    event.getName(),
+                    event.getUser().getName(),
+                    event.getUser().getId(),
+                    event.getGuild().getName(),
+                    event.getGuild().getId()
+            );
         }
-
     }
 
     public static HashMap<String, Command> getCommands() {
