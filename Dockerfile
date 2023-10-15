@@ -1,7 +1,7 @@
 
 FROM openjdk:17
 
-COPY build/libs/Spacio-2023-1.1-dev.jar /app/Spacio.jar
+COPY build/libs/Spacio-2023-3.0-release.jar /app/Spacio.jar
 
 # Definir el directorio de trabajo
 WORKDIR /app

@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'net.redsierra'
-version '1.1-dev'
+version '3.0-release'
 mainClassName = 'net.redsierra.Spacio.Spacio'
 
 repositories {
@@ -32,6 +32,7 @@ jar {
         }
     }
 shadowJar {
+
     String str = "${getBaseName()}-${LocalDate.now().year}-${version}.jar";
     manifest {
         attributes 'Main-Class': 'net.redsierra.Spacio.Spacio'
