@@ -7,14 +7,10 @@ import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.redsierra.Spacio.config.BotConfig;
-import org.json.simple.parser.ParseException;
-
-import java.io.IOException;
-
 
 public class Register {
 
-    public void reigsterCommands(JDA jda) throws IOException, ParseException {
+    public void reigsterCommands(JDA jda) {
         BotConfig config = new BotConfig();
         Guild guild = jda.getGuildById(config.getDefaultGuildId());
         assert guild != null;
@@ -53,6 +49,20 @@ public class Register {
                 Commands.slash("unmute", "Unmute a user.")
                         .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_CHANNEL))
                         .addOption(OptionType.USER, "user", "The user to unmute.", true),
+                Commands.slash("setcommandschannel", "Set the commands channel.")
+                        .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_CHANNEL))
+                        .addOption(OptionType.CHANNEL, "channel", "The channel to set as the commands channel.", true),
+                Commands.slash("addxpchannel", "Add a channel to the xp channels.")
+                        .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_CHANNEL))
+                        .addOption(OptionType.CHANNEL, "channel", "The channel to add to the xp channels.", true),
+                Commands.slash("removexpchannel", "Remove a channel from the xp channels.")
+                                .addOption(OptionType.CHANNEL, "channel", "The channel to remove from the xp channels.", true),
+                Commands.slash("setreportschannel", "Set the reports channel.")
+                        .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_CHANNEL))
+                        .addOption(OptionType.CHANNEL, "channel", "The channel to set as the reports channel.", true),
+                Commands.slash("setwelcomechannel", "Set the welcome channel.")
+                        .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_CHANNEL))
+                        .addOption(OptionType.CHANNEL, "channel", "The channel to set as the welcome channel.", true),
                 Commands.slash("fact", "Get a random fact.")
         ).queue();
     }

@@ -1,16 +1,16 @@
 package net.redsierra.Spacio.interactions.slash.commands;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.utils.FileUpload;
 import net.redsierra.Spacio.Spacio;
-import net.redsierra.Spacio.database.Database;
+import net.redsierra.Spacio.config.BotConfig;
 import net.redsierra.Spacio.events.SlashCommandInteraction;
 import net.redsierra.Spacio.interactions.Command;
 import net.redsierra.Spacio.util.Resources;
 import org.bson.Document;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 
 import javax.imageio.ImageIO;
@@ -19,7 +19,6 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("ALL")
 public class Rank extends Command {
@@ -36,16 +35,10 @@ public class Rank extends Command {
         SlashCommandInteractionEvent event = ev.getEvent();
             Spacio bot = new Spacio();
             Logger logger = bot.logger;
-            Database db = null;
+            MongoDatabase db = null;
             try {
-            try {
-                db = new Database();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
-            MongoCollection<Document> c = db.getDatabase().getCollection("users");
+                db = new BotConfig().getDatabase();
+                MongoCollection<Document> c = db.getCollection("users");
             String userId = event.getUser().getId();
 
             if(c.find(new Document("userId", userId)).first() == null) {
@@ -59,7 +52,7 @@ public class Rank extends Command {
                 try {
                     InputStream f = this.getImage(event.getUser(), xp, level);
 
-                    event.replyFiles(FileUpload.fromData(f, "rank.png")).queueAfter(50, TimeUnit.MILLISECONDS);
+                    event.replyFiles(FileUpload.fromData(f, "rank.png")).queue();
                 } catch (IOException | FontFormatException e) {
                     throw new RuntimeException(e);
                 }
@@ -87,23 +80,28 @@ public class Rank extends Command {
         }
 
 
-        BufferedImage image = new BufferedImage(2280, 1080, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(736, 414, BufferedImage.TYPE_INT_RGB);
         Font ftest = Font.createFont(Font.TRUETYPE_FONT, resources.getResourceFile("font/OpenSans-ExtraBold.ttf"));
-        Font font = ftest.deriveFont(Font.PLAIN, 150);
+        Font font = ftest.deriveFont(Font.PLAIN, 34);
+        Font font1 = ftest.deriveFont(Font.PLAIN, 22);
         Graphics g = image.getGraphics();
-        g.setColor(Color.decode("#ddbfa2"));
+        g.setColor(Color.decode("#ffffff"));
         g.fillRect(0, 0, 947, 418);
         g.setFont(font);
 
 
-        g.drawImage(pfp, 368, 260, 488, 488, null);
+        g.drawImage(pfp, 91, 150, 221, 207, null);
         g.drawImage(backgroundImage, 0, 0, null);
-        g.drawString(user.getGlobalName(), 1053, 525);
-        Font font2 = ftest.deriveFont(Font.PLAIN, 85);
+        g.drawString(user.getGlobalName(), 90, 87);
+        g.setFont(font1);
+        g.setColor(Color.decode("#c9daec"));
+        g.drawString(user.getId(), 390, 200);
+        Font font2 = ftest.deriveFont(Font.PLAIN, 38);
         g.setFont(font2);
-        g.setColor(Color.decode("#8f7b6d"));
+        g.setColor(Color.decode("#c9daec"));
         int requiredXP = (level + 1) * 350;
-        g.drawString("Level "+level+"  XP: " + xp + "/"+requiredXP, 1055, 630);
+        g.drawString("Level "+level, 435, 250);
+        g.drawString( xp + "/"+requiredXP, 425, 310);
 
         g.dispose();
 

@@ -7,13 +7,9 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.redsierra.Spacio.database.Database;
+import net.redsierra.Spacio.config.BotConfig;
 import org.bson.Document;
-import org.json.simple.parser.ParseException;
-
 import java.awt.*;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -52,9 +48,7 @@ public class AntiCapsSpam extends ListenerAdapter {
                 event.getMessage().delete().queue();
                 MongoCollection<Document> collection;
 
-                try {
-                     collection = new Database().getDatabase().getCollection("autoWarns");
-                } catch (IOException | ParseException | URISyntaxException e) { throw new RuntimeException(e); }
+                collection = new BotConfig().getDatabase().getCollection("autoWarns");
 
                 Document filter = new Document("userId", member.getId());
 

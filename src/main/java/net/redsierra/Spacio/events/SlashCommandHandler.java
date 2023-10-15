@@ -7,8 +7,6 @@ import net.redsierra.Spacio.Spacio;
 import net.redsierra.Spacio.config.BotConfig;
 import net.redsierra.Spacio.interactions.Command;
 import org.jetbrains.annotations.NotNull;
-import org.json.simple.parser.ParseException;
-import java.io.IOException;
 import java.util.HashMap;
 
 public class SlashCommandHandler extends ListenerAdapter {
@@ -26,11 +24,7 @@ public class SlashCommandHandler extends ListenerAdapter {
 
         Spacio bot = new Spacio();
         BotConfig config;
-        try {
-            config = new BotConfig();
-        } catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
-        }
+        config = new BotConfig();
 
         if (commands.containsKey(event.getName())) {
 

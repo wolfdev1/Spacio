@@ -3,24 +3,16 @@ package net.redsierra.Spacio.util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.redsierra.Spacio.config.BotConfig;
-import org.json.simple.parser.ParseException;
 
 import java.awt.*;
-import java.io.IOException;
 import java.time.Instant;
 
 public class InfractionLogger {
 
     @SuppressWarnings("ALL")
     public void createLog(String userId, String reason, String modId, String eventId, String chId, String sType, Guild guild){
-        BotConfig config = null;
-        try {
-            config = new BotConfig();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        BotConfig config = new BotConfig();
+        if (config.getLogChannelId() == null) return;
         EmbedBuilder eb = new EmbedBuilder()
                 .setAuthor(
                         "Mod "+guild.getMemberById(modId).getUser().getAsTag(),

@@ -2,12 +2,13 @@ package net.redsierra.Spacio.interactions.modals;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.redsierra.Spacio.database.Database;
+import net.redsierra.Spacio.config.BotConfig;
 import net.redsierra.Spacio.database.objects.WarnObject;
 import net.redsierra.Spacio.util.InfractionLogger;
 import org.bson.Document;
@@ -29,12 +30,8 @@ public class WarnModal extends ListenerAdapter {
 
 
                 String userId = Objects.requireNonNull(event.getValue("userid")).getAsString();
-                Database db;
-                try {
-                    db = new Database();
-                } catch (IOException | ParseException | URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
+                MongoDatabase db;
+                db = new BotConfig().getDatabase();
                 String reason = Objects.requireNonNull(event.getValue("reason")).getAsString();
 
                 try {
@@ -72,7 +69,7 @@ public class WarnModal extends ListenerAdapter {
                             .setTimestamp(Instant.now())
                             .setFooter("Warned by " + event.getMember().getUser().getGlobalName(), event.getMember().getUser().getAvatarUrl());
 
-                    MongoCollection<Document> collection = db.getDatabase().getCollection("warns");
+                    MongoCollection<Document> collection = db.getCollection("warns");
 
 
                     if (getWarns(collection, m.getId()).size() == 3) {

@@ -10,10 +10,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.redsierra.Spacio.config.BotConfig;
 import net.redsierra.Spacio.events.SlashCommandInteraction;
 import net.redsierra.Spacio.interactions.Command;
-import org.json.simple.parser.ParseException;
-
 import java.awt.*;
-import java.io.IOException;
 import java.time.Instant;
 
 
@@ -35,12 +32,11 @@ public class Report extends Command {
         User user = infractor.getAsUser();
         assert event.getGuild() != null;
         Member member = event.getGuild().getMemberById(user.getId());
-        BotConfig config;
+        BotConfig config = new BotConfig();
 
-        try {
-            config = new BotConfig();
-        } catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
+        if(config.getReportsChannel() == null) {
+            event.reply("The reports channel has not been set up yet, please setup using '/setreportschannel'").setEphemeral(true).queue();
+            return;
         }
 
         if (user == event.getUser()) {

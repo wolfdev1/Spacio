@@ -7,15 +7,11 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
-import net.redsierra.Spacio.database.Database;
+import net.redsierra.Spacio.config.BotConfig;
 import net.redsierra.Spacio.events.SlashCommandInteraction;
 import net.redsierra.Spacio.interactions.Command;
 import org.bson.Document;
-import org.json.simple.parser.ParseException;
-
 import java.awt.*;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.stream.Collectors;
@@ -62,11 +58,7 @@ public class WhoIs extends Command {
             ).setEphemeral(true).queue();
         } else {
             MongoCollection<Document> c;
-            try {
-                c = new Database().getDatabase().getCollection("users");
-            } catch (IOException | ParseException | URISyntaxException e) {
-                throw new RuntimeException(e);
-            }
+            c = new BotConfig().getDatabase().getCollection("users");
             String userId = member.getId();
             Document doc = c.find(new Document("userId", userId)).first();
 

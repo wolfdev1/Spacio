@@ -1,22 +1,16 @@
 package net.redsierra.Spacio.events;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.redsierra.Spacio.Spacio;
 import net.redsierra.Spacio.config.BotConfig;
-import net.redsierra.Spacio.database.Database;
 import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class MessageReceived extends ListenerAdapter {
 
@@ -30,24 +24,15 @@ public class MessageReceived extends ListenerAdapter {
         Spacio bot = new Spacio();
         Logger logger = bot.logger;
         BotConfig config;
-        try {
-            config = new BotConfig();
-        } catch (IOException  | ParseException e) {
-            throw new RuntimeException(e);
-        }
+        config = new BotConfig();
 
         if(!event.isFromGuild()) return;
 
 
         if(event.getAuthor().isBot()) return;
 
-        Database db;
-        try {
-            db = new Database();
-        } catch (IOException | ParseException | URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-        MongoCollection<Document> collection = db.getDatabase().getCollection("users");
+        MongoDatabase db = new BotConfig().getDatabase();
+        MongoCollection<Document> collection = db.getCollection("users");
         String userId = event.getAuthor().getId();
 
         if(collection.find(new Document("userId", userId)).first() == null) {
@@ -60,10 +45,12 @@ public class MessageReceived extends ListenerAdapter {
             xpCooldown.put(userId, Instant.now().plusSeconds(COOLDOWN_PERIOD));
 
         } else {
-            List<String> xpChannels = config.getXPChannels();
+            MongoCollection<Document> xpChannels = config.getXPChannels();
+            Document c = xpChannels.find(new Document("id", event.getChannel().getId())).first();
 
 
-            if(!xpChannels.contains(event.getChannel().getId())) return;
+
+            if(c == null) return;
 
             if(xpCooldown.containsKey(userId)) {
                 Instant lastTime = xpCooldown.get(userId);

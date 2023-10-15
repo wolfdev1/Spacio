@@ -7,10 +7,7 @@ import net.redsierra.Spacio.config.BotConfig;
 import net.redsierra.Spacio.events.SlashCommandInteraction;
 import net.redsierra.Spacio.events.SlashCommandHandler;
 import net.redsierra.Spacio.interactions.Command;
-import org.json.simple.parser.ParseException;
-
 import java.awt.*;
-import java.io.IOException;
 
 public class BotInfo extends Command {
 
@@ -28,11 +25,7 @@ public class BotInfo extends Command {
         String desc = "Spacio is a multifunctional Discord bot, it takes care of moderation and server ranking, as well as a music system.";
 
         BotConfig config;
-        try {
-             config = new BotConfig();
-        } catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
-        }
+        config = new BotConfig();
 
         event.replyEmbeds(new EmbedBuilder()
                 .setAuthor("Spacio", null, event.getJDA().getSelfUser().getAvatarUrl())

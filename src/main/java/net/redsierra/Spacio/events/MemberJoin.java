@@ -8,8 +8,6 @@ import net.dv8tion.jda.api.utils.FileUpload;
 import net.redsierra.Spacio.config.BotConfig;
 import net.redsierra.Spacio.util.Resources;
 import org.jetbrains.annotations.NotNull;
-import org.json.simple.parser.ParseException;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -22,16 +20,13 @@ public class MemberJoin extends ListenerAdapter {
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
 
         BotConfig config;
-        try {
-            config = new BotConfig();
-        } catch (IOException  | ParseException e) {
-            throw new RuntimeException(e);
-        }
-
-        // Code to generate the image
+        config = new BotConfig();
 
         TextChannel ch;
         ch = event.getGuild().getTextChannelById(config.getWelcomeChannelId());
+        if (ch == null) {
+            return;
+        }
 
         InputStream file;
         try {
@@ -39,7 +34,6 @@ public class MemberJoin extends ListenerAdapter {
         } catch (IOException | FontFormatException e) {
             throw new RuntimeException(e);
         }
-        assert ch != null;
         ch.sendFiles(FileUpload.fromData(file, "welcome.png")).queue();
     }
 

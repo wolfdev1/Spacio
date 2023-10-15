@@ -2,19 +2,17 @@ package net.redsierra.Spacio.interactions.slash.commands;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
-import net.redsierra.Spacio.database.Database;
+import net.redsierra.Spacio.config.BotConfig;
 import net.redsierra.Spacio.events.SlashCommandInteraction;
 import net.redsierra.Spacio.interactions.Command;
 import org.bson.Document;
-import org.json.simple.parser.ParseException;
 import java.awt.*;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,14 +31,9 @@ public class Warnings extends Command {
 
         SlashCommandInteractionEvent event = ev.event();
 
-            Database db;
-            try {
-                db = new Database();
-            } catch (IOException | ParseException | URISyntaxException e) {
-                throw new RuntimeException(e);
-            }
+            MongoDatabase db = new BotConfig().getDatabase();
 
-            MongoCollection<Document> c = db.getDatabase().getCollection("warns");
+            MongoCollection<Document> c = db.getCollection("warns");
             OptionMapping opt = event.getOption("user");
             assert opt != null;
             assert event.getGuild() != null;

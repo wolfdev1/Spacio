@@ -10,31 +10,33 @@ import net.redsierra.Spacio.Spacio;
 import net.redsierra.Spacio.config.BotConfig;
 import net.redsierra.Spacio.interactions.slash.commands.Mute;
 import net.redsierra.Spacio.interactions.slash.commands.*;
+import net.redsierra.Spacio.interactions.slash.commands.config.*;
 import net.redsierra.Spacio.interactions.slash.commands.music.*;
 import org.jetbrains.annotations.NotNull;
-import org.json.simple.parser.ParseException;
-
-import java.io.IOException;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-
 public class Ready extends ListenerAdapter {
+
+    TextChannel channel;
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        BotConfig config;
-
-        try {
-            config = new BotConfig();
-        } catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
-        }
+        BotConfig config = new BotConfig();
 
         Guild guild = event.getJDA().getGuildById(config.getDefaultGuildId());
         assert guild != null;
-        TextChannel channel = guild.getTextChannelById(config.getCommandsChannelId());
-        assert channel != null;
-         try {
+
+
+        if (config.getCommandsChannelId() == null) {
+            guild.getTextChannels().get(0).sendMessage("The commands channel has not been set. Please set it using `/setcommandschannel`.").queue();
+        } else {
+            channel = guild.getTextChannelById(config.getCommandsChannelId());
+            assert channel != null;
+        }
+
+             SlashCommandHandler.registerCommand(new SetCommandsChannel().getName(), new SetCommandsChannel());
+
+        try {
 
              SlashCommandHandler.registerCommand(new Rank().getName(), new Rank());
              SlashCommandHandler.registerCommand(new Warn().getName(), new Warn());
@@ -53,6 +55,10 @@ public class Ready extends ListenerAdapter {
              SlashCommandHandler.registerCommand(new WhoIs().getName(), new WhoIs());
              SlashCommandHandler.registerCommand(new UnMute().getName(), new UnMute());
              SlashCommandHandler.registerCommand(new Fact().getName(), new Fact());
+             SlashCommandHandler.registerCommand(new AddXpChannel().getName(), new AddXpChannel());
+             SlashCommandHandler.registerCommand(new RemoveXpChannel().getName(), new RemoveXpChannel());
+             SlashCommandHandler.registerCommand(new SetReportsChannel().getName(), new SetReportsChannel());
+             SlashCommandHandler.registerCommand(new SetWelcomeChannel().getName(), new SetWelcomeChannel());
 
              new Spacio().logger.info("Successfully registered " + SlashCommandHandler.getCommands().size() + " commands.");
 

@@ -1,6 +1,7 @@
 package net.redsierra.Spacio.database.objects;
 
-import net.redsierra.Spacio.database.Database;
+import com.mongodb.client.MongoDatabase;
+import net.redsierra.Spacio.config.BotConfig;
 import org.bson.Document;
 import org.json.simple.parser.ParseException;
 
@@ -11,14 +12,14 @@ import java.net.URISyntaxException;
 public class WarnObject
 {
     public void addInfraction(String userId, String reason, String modId, String warnId, String chId) throws IOException, ParseException, URISyntaxException {
-        Database db = new Database();
+        MongoDatabase db = new BotConfig().getDatabase();
         Document warn = new Document("userId", userId)
                 .append("reason", reason)
                 .append("warnId", warnId)
                 .append("channelId", chId)
                 .append("modId", modId);
 
-        db.getDatabase().getCollection("warns").insertOne(warn);
+        db.getCollection("warns").insertOne(warn);
     }
 }
 
