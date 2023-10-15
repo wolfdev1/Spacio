@@ -14,12 +14,6 @@ Spacio uses environment variables that you must configure before you can run it,
 
 - 'BOT_TOKEN' - The token of your bot, you can get it from the [Discord Developer Portal](https://discord.com/developers/applications)
 - 'MONGO_URI' - The URI of your MongoDB database, you can get it from [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) or at your favorite Mongo provider
-- 'REPORTS_CHANNEL_ID' - The ID of the channel where the reports will be sent you
-- 'LOG_CHANNEL_ID' - The ID of the channel where the mod logs will be sent you
-- 'WELCOME_CHANNEL_ID' - The ID of the channel where the welcome messages will be sent you
-- 'COMMANDS_CHANNEL_ID' - The ID of the channel where the commands will be executed
-- Xp Channels Id - This is an env group, you must create a env variable for each channel where you want to give XP to the users, env var name -> 'XP_CHANNELNAME'
-- 'LOG_CHANNEL_ID' - The ID of the channel where the mod logs will be sent you
 - 'FACTS_API_KEY' - The API key of the [Facts API](https://api-ninjas.com/api/facts/)
 - 'DEFAULT_GUILD_ID' - The ID of the guild where the bot will be activated
 
