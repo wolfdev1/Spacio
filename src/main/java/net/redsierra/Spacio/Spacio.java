@@ -13,19 +13,17 @@ import net.redsierra.Spacio.events.automod.AntiBadWords;
 import net.redsierra.Spacio.events.automod.AntiCapsSpam;
 import net.redsierra.Spacio.interactions.autocompletes.MuteAutocomplete;
 import net.redsierra.Spacio.interactions.modals.ClearWarnModal;
+import net.redsierra.Spacio.interactions.modals.KickModal;
 import net.redsierra.Spacio.interactions.modals.WarnModal;
 import net.redsierra.Spacio.events.automod.AntiInvites;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 public class Spacio {
 
     public Logger logger = LoggerFactory.getLogger(Spacio.class);
     public static void main(String[] args)
-            throws InterruptedException, IOException, ParseException {
+            throws InterruptedException {
         BotConfig config = new BotConfig();
 
         JDA jda = JDABuilder.createDefault(config.getBotToken())
@@ -36,6 +34,7 @@ public class Spacio {
                         new Ready(),
                         new MessageReceived(),
                         new ClearWarnModal(),
+                        new KickModal(),
                         new MuteAutocomplete(),
                         new AntiCapsSpam(),
                         new AntiBadWords(),

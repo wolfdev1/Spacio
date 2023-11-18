@@ -8,9 +8,9 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import net.redsierra.Spacio.Spacio;
 import net.redsierra.Spacio.config.BotConfig;
-import net.redsierra.Spacio.interactions.slash.commands.Mute;
-import net.redsierra.Spacio.interactions.slash.commands.*;
-import net.redsierra.Spacio.interactions.slash.commands.config.*;
+import net.redsierra.Spacio.interactions.slash.commands.general.*;
+import net.redsierra.Spacio.interactions.slash.commands.mod.*;
+import net.redsierra.Spacio.interactions.slash.commands.mod.config.*;
 import net.redsierra.Spacio.interactions.slash.commands.music.*;
 import org.jetbrains.annotations.NotNull;
 import java.net.JarURLConnection;
@@ -59,6 +59,7 @@ public class Ready extends ListenerAdapter {
              SlashCommandHandler.registerCommand(new RemoveXpChannel().getName(), new RemoveXpChannel());
              SlashCommandHandler.registerCommand(new SetReportsChannel().getName(), new SetReportsChannel());
              SlashCommandHandler.registerCommand(new SetWelcomeChannel().getName(), new SetWelcomeChannel());
+             SlashCommandHandler.registerCommand(new Kick().getName(), new Kick());
 
              new Spacio().logger.info("Successfully registered " + SlashCommandHandler.getCommands().size() + " commands.");
 
@@ -70,6 +71,7 @@ public class Ready extends ListenerAdapter {
                  channel.sendMessage("**Spacio** has been deployed to production using version **" + config.getProjectVersion() + ".**").queue();
              } else {
                  channel.sendMessage("**Spacio** has been deployed to development (locally) using version **" + config.getProjectVersion() + "**").queue();
+
              }
 
          } catch (Exception e) {

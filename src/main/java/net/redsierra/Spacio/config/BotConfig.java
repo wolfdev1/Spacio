@@ -9,6 +9,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.awt.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -40,10 +41,6 @@ public class BotConfig {
     }
     public String getBotToken() {
         return System.getenv("BOT_TOKEN");
-    }
-
-    public String getFactsApiKey() {
-        return System.getenv("FACTS_API_KEY");
     }
 
     public String getProjectVersion() {
@@ -85,6 +82,10 @@ public class BotConfig {
 
     public String getDatabaseUrl() {
         return System.getenv("MONGO_URI");
+    }
+
+    public Color getSystemColor() {
+        return Color.decode(file.get("systemColor").toString());
     }
 
     public MongoCollection<Document> getXPChannels() {

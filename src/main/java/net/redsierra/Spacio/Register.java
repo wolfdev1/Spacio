@@ -63,7 +63,10 @@ public class Register {
                 Commands.slash("setwelcomechannel", "Set the welcome channel.")
                         .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_CHANNEL))
                         .addOption(OptionType.CHANNEL, "channel", "The channel to set as the welcome channel.", true),
-                Commands.slash("fact", "Get a random fact.")
+                Commands.slash("fact", "Get a random fact."),
+                Commands.slash("kick", "Kick a user.")
+                        .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.KICK_MEMBERS))
+
         ).queue();
     }
 }

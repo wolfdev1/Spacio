@@ -25,6 +25,7 @@ import java.util.Objects;
 public class WarnModal extends ListenerAdapter {
 
     public void onModalInteraction(@NotNull ModalInteractionEvent event) {
+        BotConfig config = new BotConfig();
         if (event.getModalId().equals("warn")) {
             try {
 
@@ -65,7 +66,7 @@ public class WarnModal extends ListenerAdapter {
                     EmbedBuilder wEb = new EmbedBuilder()
                             .setAuthor(m.getUser().getGlobalName() + " warned", null, m.getUser().getAvatarUrl())
                             .addField("Reason:", reason, true)
-                            .setColor(Color.decode("#91aeed"))
+                            .setColor(config.getSystemColor())
                             .setTimestamp(Instant.now())
                             .setFooter("Warned by " + event.getMember().getUser().getGlobalName(), event.getMember().getUser().getAvatarUrl());
 
