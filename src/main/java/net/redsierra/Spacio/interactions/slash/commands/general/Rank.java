@@ -89,10 +89,6 @@ public class Rank extends Command {
 
         g.drawString(user.getGlobalName(), 90, 87);
 
-        g.setFont(font1);
-        g.setColor(Color.decode("#c9daec"));
-        g.drawString(user.getId(), 390, 200);
-
         g.setFont(font2);
         g.setColor(Color.decode("#c9daec"));
         int requiredXP = (level + 1) * 350;
