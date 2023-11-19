@@ -60,6 +60,7 @@ public class Ready extends ListenerAdapter {
              SlashCommandHandler.registerCommand(new SetReportsChannel().getName(), new SetReportsChannel());
              SlashCommandHandler.registerCommand(new SetWelcomeChannel().getName(), new SetWelcomeChannel());
              SlashCommandHandler.registerCommand(new Kick().getName(), new Kick());
+             SlashCommandHandler.registerCommand(new Ticket().getName(), new Ticket());
 
              new Spacio().logger.info("Successfully registered " + SlashCommandHandler.getCommands().size() + " commands.");
 

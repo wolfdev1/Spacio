@@ -12,6 +12,7 @@ import net.redsierra.Spacio.events.*;
 import net.redsierra.Spacio.events.automod.AntiBadWords;
 import net.redsierra.Spacio.events.automod.AntiCapsSpam;
 import net.redsierra.Spacio.interactions.autocompletes.MuteAutocomplete;
+import net.redsierra.Spacio.interactions.menus.TicketStringMenu;
 import net.redsierra.Spacio.interactions.modals.ClearWarnModal;
 import net.redsierra.Spacio.interactions.modals.KickModal;
 import net.redsierra.Spacio.interactions.modals.WarnModal;
@@ -37,6 +38,7 @@ public class Spacio {
                         new KickModal(),
                         new MuteAutocomplete(),
                         new AntiCapsSpam(),
+                        new TicketStringMenu(),
                         new AntiBadWords(),
                         new AntiInvites(),
                         new SlashCommandHandler()
