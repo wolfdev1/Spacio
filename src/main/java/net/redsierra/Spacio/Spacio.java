@@ -12,9 +12,7 @@ import net.redsierra.Spacio.events.*;
 import net.redsierra.Spacio.events.automod.AntiBadWords;
 import net.redsierra.Spacio.events.automod.AntiCapsSpam;
 import net.redsierra.Spacio.interactions.autocompletes.MuteAutocomplete;
-import net.redsierra.Spacio.interactions.menus.EditTicketStringMenu;
-import net.redsierra.Spacio.interactions.menus.EditTicketTopicStringMenu;
-import net.redsierra.Spacio.interactions.menus.TicketStringMenu;
+import net.redsierra.Spacio.interactions.menus.*;
 import net.redsierra.Spacio.interactions.modals.*;
 import net.redsierra.Spacio.events.automod.AntiInvites;
 import org.slf4j.Logger;
@@ -36,6 +34,10 @@ public class Spacio {
                         new MessageReceived(),
                         new ClearWarnModal(),
                         new KickModal(),
+                        new RolesStringMenu(),
+                        new GenderStringMenu(),
+                        new RegionStringMenu(),
+                        new CategoryStringMenu(),
                         new MuteAutocomplete(),
                         new AntiCapsSpam(),
                         new EditTicketStringMenu(),

@@ -46,6 +46,7 @@ public class Ready extends ListenerAdapter {
              SlashCommandHandler.registerCommand(new Skip().getName(), new Skip());
              SlashCommandHandler.registerCommand(new Queue().getName(), new Queue());
              SlashCommandHandler.registerCommand(new EditTicket().getName(), new EditTicket());
+             SlashCommandHandler.registerCommand(new Roles().getName(), new Roles());
              SlashCommandHandler.registerCommand(new Play().getName(), new Play());
              SlashCommandHandler.registerCommand(new Join().getName(), new Join());
              SlashCommandHandler.registerCommand(new BotInfo().getName(), new BotInfo());
