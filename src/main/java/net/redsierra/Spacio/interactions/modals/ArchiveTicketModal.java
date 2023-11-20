@@ -14,7 +14,7 @@ import java.util.Objects;
 public class ArchiveTicketModal extends ListenerAdapter {
     public void onModalInteraction(@NotNull ModalInteractionEvent event) {
         if (event.getModalId().equals("archive-ticket")) {
-            String ticketId = Objects.requireNonNull(event.getValue("verifyArchive")).getAsString();
+            String ticketId = Objects.requireNonNull(event.getValue("verify-archive")).getAsString();
             String name = event.getChannel().getName();
 
             if (!name.substring(name.indexOf('-')+1).equals(ticketId)) {

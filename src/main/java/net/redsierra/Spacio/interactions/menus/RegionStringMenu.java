@@ -3,10 +3,20 @@ package net.redsierra.Spacio.interactions.menus;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.redsierra.Spacio.util.AddRoleToMember;
 
 public class RegionStringMenu extends ListenerAdapter {
+    private static final String REGION_SELECT_COMPONENT_ID = "region-select";
+    private static final String ROLE_NA = "North America";
+    private static final String ROLE_SA = "South America";
+    private static final String ROLE_EU = "Europe";
+    private static final String ROLE_ASIA = "Asia";
+    private static final String ROLE_AFRICA = "Africa";
+    private static final String ROLE_OCEANIA = "Oceania";
+    private static final String ROLE_ANTARCTICA = "Antarctica";
+
     public void onStringSelectInteraction(StringSelectInteractionEvent event) {
-        if (event.getComponentId().equals("region-select")) {
+        if (event.getComponentId().equals(REGION_SELECT_COMPONENT_ID)) {
             String val = event.getValues().get(0);
             assert event.getMember() != null;
             assert event.getGuild() != null;
@@ -14,32 +24,25 @@ public class RegionStringMenu extends ListenerAdapter {
 
             switch (val) {
                 case "na":
-                    guild.addRoleToMember(event.getMember(), guild.getRolesByName("North America", true).get(0)).queue();
-                    event.reply("You have been given the role `North America`").setEphemeral(true).queue();
+                    new AddRoleToMember().add(guild, ROLE_NA, event);
                 break;
                 case "sa":
-                    guild.addRoleToMember(event.getMember(), guild.getRolesByName("South America", true).get(0)).queue();
-                    event.reply("You have been given the role `South America`").setEphemeral(true).queue();
+                    new AddRoleToMember().add(guild, ROLE_SA, event);
                 break;
                 case "eu":
-                    guild.addRoleToMember(event.getMember(), guild.getRolesByName("Europe", true).get(0)).queue();
-                    event.reply("You have been given the role `Europe`").setEphemeral(true).queue();
+                    new AddRoleToMember().add(guild, ROLE_EU, event);
                 break;
                 case "asia":
-                    guild.addRoleToMember(event.getMember(), guild.getRolesByName("Asia", true).get(0)).queue();
-                    event.reply("You have been given the role `Asia`").setEphemeral(true).queue();
+                    new AddRoleToMember().add(guild, ROLE_ASIA, event);
                 break;
                 case "africa":
-                    guild.addRoleToMember(event.getMember(), guild.getRolesByName("Africa", true).get(0)).queue();
-                    event.reply("You have been given the role `Africa`").setEphemeral(true).queue();
+                    new AddRoleToMember().add(guild, ROLE_AFRICA, event);
                 break;
                 case "oceania":
-                    guild.addRoleToMember(event.getMember(), guild.getRolesByName("Oceania", true).get(0)).queue();
-                    event.reply("You have been given the role `Oceania`").setEphemeral(true).queue();
+                    new AddRoleToMember().add(guild, ROLE_OCEANIA, event);
                 break;
                 case "antarctica":
-                    guild.addRoleToMember(event.getMember(), guild.getRolesByName("Antarctica", true).get(0)).queue();
-                    event.reply("You have been given the role `Antarctica`").setEphemeral(true).queue();
+                    new AddRoleToMember().add(guild, ROLE_ANTARCTICA, event);
                 break;
             }
         }

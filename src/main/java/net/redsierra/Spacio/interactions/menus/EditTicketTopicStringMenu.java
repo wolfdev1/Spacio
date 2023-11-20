@@ -1,14 +1,20 @@
 package net.redsierra.Spacio.interactions.menus;
 
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.redsierra.Spacio.config.BotConfig;
+import net.redsierra.Spacio.util.EditTicketMessages;
 
 public class EditTicketTopicStringMenu extends ListenerAdapter {
+
+    private static final String EDIT_TICKET_TYPE_COMPONENT_ID = "edit-ticket-type";
+    private static final String TOPIC_BUG_REPORT = "Bug Report";
+    private static final String TOPIC_SUGGESTION = "Suggestion";
+    private static final String TOPIC_DOUBTS = "Doubts";
+    private static final String TOPIC_OTHER = "Other";
+
     public void onStringSelectInteraction(StringSelectInteractionEvent event) {
-        if (event.getComponentId().equals("edit-ticket-type")) {
+        if (event.getComponentId().equals(EDIT_TICKET_TYPE_COMPONENT_ID)) {
             assert event.getGuild() != null;
             TextChannel channel = event.getGuild().getTextChannelById(event.getChannel().getId());
             assert channel != null;
@@ -16,63 +22,33 @@ public class EditTicketTopicStringMenu extends ListenerAdapter {
 
             switch (val) {
                 case "bug-report":
-                    channel.getManager().setTopic("This ticket is about a bug report.").queue();
-                    event.reply("Ticket topic changed to `Bug Report`").setEphemeral(true).queue();
-                    EmbedBuilder builder = new EmbedBuilder();
-                    builder.setAuthor(event.getUser().getGlobalName() + " changed ticket topic", null, event.getUser().getAvatarUrl())
-                            .setDescription("Please describe your bug report in the following format:\n\n" +
-                                    "**Bug Report**\n" +
-                                    "What is the bug?\n" +
-                                    "How can we reproduce it?\n" +
-                                    "\nTicket ID is: `" + event.getInteraction().getId() + "`"
-                            )
-                            .setColor(new BotConfig().getSystemColor())
-                            .setFooter("Powered by Spacio");
-                    channel.sendMessageEmbeds(builder.build()).queue();
+
+                    String s = "Please describe your bug report in the following format:\n\n**Bug Report**\nWhat is the bug?\nHow can we reproduce it?\n\nTicket ID is: `" + event.getInteraction().getId() + "`";
+                    new EditTicketMessages().createEmbed(s, event);
+                    new EditTicketMessages().setTopicAndSendMessages(channel, TOPIC_BUG_REPORT, "Bug Report", s, event);
                     break;
                 case "suggestion":
-                    channel.getManager().setTopic("This ticket is about an user suggestion.").queue();
-                    event.reply("Ticket topic changed to `Suggestion`").setEphemeral(true).queue();
-                    EmbedBuilder builder2 = new EmbedBuilder();
-                    builder2.setAuthor(event.getUser().getGlobalName() + " changed ticket topic", null, event.getUser().getAvatarUrl())
-                            .setDescription("Please describe your suggestion in the following format:\n\n" +
-                                    "**Suggestion**\n" +
-                                    "What is your suggestion?\n" +
-                                    "\nTicket ID is: `" + event.getInteraction().getId() + "`"
-                            )
-                            .setColor(new BotConfig().getSystemColor())
-                            .setFooter("Powered by Spacio");
-                    channel.sendMessageEmbeds(builder2.build()).queue();
+
+                    String s1 = "Please describe your suggestion in the following format:\n\n**Suggestion**\nWhat is your suggestion?\n\nTicket ID is: `" + event.getInteraction().getId() + "`";
+                    new EditTicketMessages().createEmbed(s1, event);
+                    new EditTicketMessages().setTopicAndSendMessages(channel, TOPIC_SUGGESTION, "Suggestion", s1, event);
                     break;
                 case "doubts":
-                    channel.getManager().setTopic("This ticket is about a doubt.").queue();
-                    event.reply("Ticket topic changed to `Doubts`").setEphemeral(true).queue();
-                    EmbedBuilder builder3 = new EmbedBuilder();
-                    builder3.setAuthor(event.getUser().getGlobalName() + " changed ticket topic", null, event.getUser().getAvatarUrl())
-                            .setDescription("Please describe your doubts in the following format:\n\n" +
-                                    "**Doubts**\n" +
-                                    "What is your doubt?\n" +
-                                    "\nTicket ID is: `" + event.getInteraction().getId() + "`"
-                            )
-                            .setColor(new BotConfig().getSystemColor())
-                            .setFooter("Powered by Spacio");
-                    channel.sendMessageEmbeds(builder3.build()).queue();
+
+                    String s2 = "Please describe your doubts in the following format:\n\n**Doubts**\nWhat are your doubts?\n\nTicket ID is: `" + event.getInteraction().getId() + "`";
+                    new EditTicketMessages().createEmbed(s2, event);
+                    new EditTicketMessages().setTopicAndSendMessages(channel, TOPIC_DOUBTS, "Doubts", s2, event);
                     break;
                 case "other":
-                    channel.getManager().setTopic("This ticket is about another topic.").queue();
-                    event.reply("Ticket topic changed to `Other`").setEphemeral(true).queue();
-                    EmbedBuilder builder4 = new EmbedBuilder();
-                    builder4.setAuthor(event.getUser().getGlobalName() + " changed ticket topic", null, event.getUser().getAvatarUrl())
-                            .setDescription("Please describe your topic in the following format:\n\n" +
-                                    "**Topic**\n" +
-                                    "What is your topic?\n" +
-                                    "\nTicket ID is: `" + event.getInteraction().getId() + "`"
-                            )
-                            .setColor(new BotConfig().getSystemColor())
-                            .setFooter("Powered by Spacio");
-                    channel.sendMessageEmbeds(builder4.build()).queue();
+
+                    String s3 = "Please describe your topic in the following format:\n\n**Other**\nWhat is your topic?\n\nTicket ID is: `" + event.getInteraction().getId() + "`";
+                    new EditTicketMessages().createEmbed(s3, event);
+                    new EditTicketMessages().setTopicAndSendMessages(channel, TOPIC_OTHER, "Other", s3, event);
                     break;
             }
         }
     }
+
+
+
 }

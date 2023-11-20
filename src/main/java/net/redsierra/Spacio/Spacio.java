@@ -36,6 +36,7 @@ public class Spacio {
                         new KickModal(),
                         new RolesStringMenu(),
                         new GenderStringMenu(),
+                        new PronounsStringMenu(),
                         new RegionStringMenu(),
                         new CategoryStringMenu(),
                         new MuteAutocomplete(),

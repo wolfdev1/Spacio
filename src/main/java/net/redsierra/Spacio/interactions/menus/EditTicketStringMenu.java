@@ -11,9 +11,12 @@ import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.dv8tion.jda.api.interactions.modals.Modal;
 
 public class EditTicketStringMenu extends ListenerAdapter {
+    private static final String EDIT_TICKET_COMPONENT_ID = "ticket-edit";
+    private static final String TICKET_NAME_PREFIX = "ticket-";
+
     public void onStringSelectInteraction(StringSelectInteractionEvent event) {
-        if (event.getComponentId().equals("ticket-edit")) {
-            if (!event.getChannel().getName().startsWith("ticket-")) {
+        if (event.getComponentId().equals(EDIT_TICKET_COMPONENT_ID)) {
+            if (!event.getChannel().getName().startsWith(TICKET_NAME_PREFIX)) {
                 event.reply("You can only edit tickets.").setEphemeral(true).queue();
                 return;
             }
@@ -38,26 +41,23 @@ public class EditTicketStringMenu extends ListenerAdapter {
                                             .build()).queue();
                     break;
                 case "archive":
-                    TextInput verify = TextInput.create("verifyArchive", "Ticket ID", TextInputStyle.SHORT)
-                            .setPlaceholder("To verify that you want to archive your ticket, please enter your ticket ID.")
-                            .setRequiredRange(1, 20)
-                            .build();
-                    Modal modal = Modal.create("archive-ticket", "Archive Ticket")
-                            .addComponents(ActionRow.of(verify))
-                            .build();
-                    event.replyModal(modal).queue();
+                    event.replyModal(buildTicketModal("archive", "Archive Ticket")).queue();
                     break;
                 case "delete":
-                    TextInput verify2 = TextInput.create("verifyDelete", "Ticket ID", TextInputStyle.SHORT)
-                            .setPlaceholder("To verify that you want to delete your ticket, please enter your ticket ID.")
-                            .setRequiredRange(1, 20)
-                            .build();
-                    Modal modal2 = Modal.create("delete-ticket", "Delete Ticket")
-                            .addComponents(ActionRow.of(verify2))
-                            .build();
-                    event.replyModal(modal2).queue();
+                    event.replyModal(buildTicketModal("delete", "Delete Ticket")).queue();
                     break;
             }
         }
+    }
+
+    private Modal buildTicketModal(String action, String title) {
+        TextInput verify = TextInput.create("verify-" + action, "Ticket ID", TextInputStyle.SHORT)
+                .setPlaceholder("To verify, enter your ticket ID.")
+                .setRequiredRange(1, 20)
+                .build();
+
+        return Modal.create(action + "-ticket", title)
+                .addComponents(ActionRow.of(verify))
+                .build();
     }
 }

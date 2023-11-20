@@ -9,7 +9,7 @@ import java.util.Objects;
 public class DeleteTicketModal extends ListenerAdapter {
     public void onModalInteraction(ModalInteractionEvent event) {
         if (event.getModalId().equals("delete-ticket")) {
-            String ticketId = Objects.requireNonNull(event.getValue("verifyDelete")).getAsString();
+            String ticketId = Objects.requireNonNull(event.getValue("verify-delete")).getAsString();
             String chName = event.getChannel().getName();
 
             if (!chName.substring(chName.indexOf('-')+1).equals(ticketId)) {

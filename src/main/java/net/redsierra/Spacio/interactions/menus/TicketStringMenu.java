@@ -10,21 +10,25 @@ import net.redsierra.Spacio.config.BotConfig;
 
 public class TicketStringMenu extends ListenerAdapter {
 
+    private static final String TICKET_TYPE_COMPONENT_ID = "ticket-type";
+    private static final String CATEGORY_NAME = "Tickets";
+    private static final String ROLE_SUPPORT = "Support";
+
     @Override
     public void onStringSelectInteraction(StringSelectInteractionEvent event) {
-        if (event.getComponentId().equals("ticket-type")) {
+        if (event.getComponentId().equals(TICKET_TYPE_COMPONENT_ID)) {
             String val = event.getValues().get(0);
-            Category category = event.getGuild().getCategoriesByName("Tickets", true).get(0);
+            Category category = event.getGuild().getCategoriesByName(CATEGORY_NAME, true).get(0);
 
             if (category == null) {
-                event.getGuild().createCategory("Tickets").queue();
+                event.getGuild().createCategory(CATEGORY_NAME).queue();
 
                 event.reply("Sorry, but the ticket category was not created yet. Please try again.").setEphemeral(true).queue();
             } else {
                 String chName = "ticket-" + event.getInteraction().getId();
                 category.createTextChannel(chName)
                         .addPermissionOverride(event.getGuild().getPublicRole(), 0, Permission.VIEW_CHANNEL.getRawValue())
-                        .addPermissionOverride(event.getGuild().getRolesByName("Support", true).get(0), Permission.VIEW_CHANNEL.getRawValue(), 0)
+                        .addPermissionOverride(event.getGuild().getRolesByName(ROLE_SUPPORT, true).get(0), Permission.VIEW_CHANNEL.getRawValue(), 0)
                         .addMemberPermissionOverride(event.getUser().getIdLong(), Permission.VIEW_CHANNEL.getRawValue(), 0)
                         .addMemberPermissionOverride(event.getUser().getIdLong(), Permission.MESSAGE_SEND.getRawValue(), 0)
                         .addMemberPermissionOverride(event.getUser().getIdLong(), Permission.MESSAGE_HISTORY.getRawValue(), 0)

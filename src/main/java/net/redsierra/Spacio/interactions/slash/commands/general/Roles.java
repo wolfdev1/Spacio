@@ -25,7 +25,7 @@ public class Roles extends Command {
         assert event != null;
         Guild guild = event.getGuild();
 
-        String[] requiredRoles = {"Art", "Music", "Gaming", "Programming", "Male", "Female", "Non-Binary", "Genderqueer", "North America", "South America", "Europe", "Asia", "Africa", "Oceania", "Antarctica"};
+        String[] requiredRoles = {"Art", "Music", "Gaming", "Programming", "Male", "Female", "Non-Binary", "Genderqueer", "North America", "South America", "Europe", "Asia", "Africa", "Oceania", "Antarctica", "He/Him", "She/Her", "They/Them", "Ask"};
 
         for (String requiredRole : requiredRoles) {
             assert guild != null;
