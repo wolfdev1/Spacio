@@ -45,7 +45,7 @@ public class Rank extends Command {
             FONT_PLAIN_34 = ftest.deriveFont(Font.PLAIN, 34);
             FONT_PLAIN_38 = ftest.deriveFont(Font.PLAIN, 38);
         } catch (IOException | FontFormatException e) {
-            throw new RuntimeException(e);
+            throw new ExceptionInInitializerError(e);
         }
     }
 
@@ -76,7 +76,7 @@ public class Rank extends Command {
                     event.deferReply().queue();
                     event.getHook().editOriginal("Here is your rank card!").setFiles(FileUpload.fromData(f, "rank.png")).delay(7, TimeUnit.SECONDS).queue();
                 } catch (IOException | FontFormatException e) {
-                    throw new RuntimeException(e);
+                    event.reply("Sorry... Something went wrong (ASKJPDJALDJAFIHGÑAOFFIWAIFUñWSAFI PORQUE COJONES NO SIRVE ESTO AAAAAAAAAAAAAAAAA)! Please try again later").queue();
                 }
             }
         } catch (Exception e) {
@@ -105,7 +105,10 @@ public class Rank extends Command {
 
         g.dispose();
 
-        try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
+
+        try (ByteArrayOutputStream os = new ByteArrayOutputStream();
+             FileOutputStream fos = new FileOutputStream(new File(System.getProperty("java.io.tmpdir"), "rank.png"))) {
+
             ImageIO.write(image, "png", os);
             return new ByteArrayInputStream(os.toByteArray());
         }

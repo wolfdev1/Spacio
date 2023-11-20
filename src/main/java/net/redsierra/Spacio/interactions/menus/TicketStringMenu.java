@@ -38,48 +38,60 @@ public class TicketStringMenu extends ListenerAdapter {
                 TextChannel channel = event.getGuild().getTextChannelsByName(chName, true).get(0);
                 switch (val) {
                     case "bug-report":
+                        channel.getManager().setTopic("This ticket is about a bug report.").queue();
                         EmbedBuilder bugReport = new EmbedBuilder()
                                 .setAuthor(event.getUser().getGlobalName() + " opened a ticket", null, event.getUser().getAvatarUrl())
                                 .setDescription("Please describe your bug report in the following format:\n\n" +
                                         "**Bug Report**\n" +
                                         "What is the bug?\n" +
-                                        "How can we reproduce it?\n")
+                                        "How can we reproduce it?\n" +
+                                        "\nTicket ID is: `" + event.getInteraction().getId() + "`"
+                                )
                                 .setColor(new BotConfig().getSystemColor())
                                 .setFooter("Powered by Spacio");
                         channel.sendMessageEmbeds(bugReport.build()).queue();
                         event.reply(event.getUser().getAsMention() + " ticket created with the topic `Bug Report` at " + channel.getAsMention()).setEphemeral(true).queue();
                         break;
                     case "suggestion":
+                        channel.getManager().setTopic("This ticket is about an user suggestion.").queue();
                         event.reply(event.getUser().getAsMention() + " ticket created with the topic `Suggestion` at " + channel.getAsMention()).setEphemeral(true).queue();
                         EmbedBuilder suggestion = new EmbedBuilder()
                                 .setAuthor(event.getUser().getGlobalName() + " opened a ticket", null, event.getUser().getAvatarUrl())
                                 .setDescription("Please describe your suggestion in the following format:\n\n" +
                                         "**Suggestion**\n" +
                                         "What is your suggestion?\n" +
-                                        "Why do you think it should be added?\n")
+                                        "Why do you think it should be added?\n" +
+                                        "\nTicket ID is: `" + event.getInteraction().getId() + "`"
+                                )
                                 .setColor(new BotConfig().getSystemColor())
                                 .setFooter("Powered by Spacio");
                         channel.sendMessageEmbeds(suggestion.build()).queue();
                         break;
                     case "doubts":
+                        channel.getManager().setTopic("This ticket is about user doubts.").queue();
                         event.reply(event.getUser().getAsMention() + " ticket created with the topic `Doubts` at " + channel.getAsMention()).setEphemeral(true).queue();
                         EmbedBuilder doubts = new EmbedBuilder()
                                 .setAuthor(event.getUser().getGlobalName() + " opened a ticket", null, event.getUser().getAvatarUrl())
                                 .setDescription("Please describe your doubts in the following format:\n\n" +
                                         "**Doubts**\n" +
                                         "What is your doubt?\n" +
-                                        "Why do you have this doubt?\n")
+                                        "Why do you have this doubt?\n" +
+                                        "\nTicket ID is: `" + event.getInteraction().getId() + "`"
+                                )
                                 .setColor(new BotConfig().getSystemColor())
                                 .setFooter("Powered by Spacio");
                         channel.sendMessageEmbeds(doubts.build()).queue();
                         break;
                     case "other":
+                        channel.getManager().setTopic("This ticket is about something else.").queue();
                         EmbedBuilder other = new EmbedBuilder()
                                 .setAuthor(event.getUser().getGlobalName() + " opened a ticket", null, event.getUser().getAvatarUrl())
                                 .setDescription("Please describe your ticket in the following format:\n\n" +
                                         "**Other**\n" +
                                         "What is your ticket?\n" +
-                                        "Why do you have this ticket?\n")
+                                        "Why do you have this ticket?\n" +
+                                        "\nTicket ID is: `" + event.getInteraction().getId() + "`"
+                                )
                                 .setColor(new BotConfig().getSystemColor())
                                 .setFooter("Powered by Spacio");
                         event.reply(event.getUser().getAsMention() + " ticket created with the topic `Other` at " + channel.getAsMention()).setEphemeral(true).queue();

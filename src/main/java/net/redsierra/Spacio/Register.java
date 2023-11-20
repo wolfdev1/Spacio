@@ -66,7 +66,8 @@ public class Register {
                 Commands.slash("fact", "Get a random fact."),
                 Commands.slash("kick", "Kick a user.")
                         .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.KICK_MEMBERS)),
-                Commands.slash("ticket", "Create a ticket.")
+                Commands.slash("ticket", "Create a ticket."),
+                Commands.slash("editticket", "Edit a ticket.")
 
         ).queue();
     }
