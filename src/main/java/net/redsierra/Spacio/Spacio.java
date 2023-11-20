@@ -28,7 +28,7 @@ public class Spacio {
         BotConfig config = new BotConfig();
 
         JDA jda = JDABuilder.createDefault(config.getBotToken())
-                .setActivity(Activity.listening("Hello world!"))
+                .setActivity(Activity.listening("LoFI Beats"))
                 .addEventListeners(
                         new WarnModal(),
                         new MemberJoin(),
