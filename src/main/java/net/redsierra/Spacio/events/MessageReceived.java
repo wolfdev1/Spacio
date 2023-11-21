@@ -39,7 +39,9 @@ public class MessageReceived extends ListenerAdapter {
 
             Document doc = new Document("userId", userId)
                     .append("xp", 0)
-                    .append("level", 0);
+                    .append("level", 0)
+                    .append("avatar_url", 0)
+                    .append("name", 0);
             collection.insertOne(doc);
 
             xpCooldown.put(userId, Instant.now().plusSeconds(COOLDOWN_PERIOD));
@@ -69,10 +71,14 @@ public class MessageReceived extends ListenerAdapter {
             int axp = currentXP + (xp);
 
             user.append("xp", axp);
+            user.append("avatar_url", event.getAuthor().getAvatarUrl());
+            user.append("name", event.getAuthor().getName());
             user.append("level", currentLevel);
             collection.replaceOne(new Document("userId", userId), user);
 
             if (currentXP >= requiredXP) {
+                user.append("avatar_url", event.getAuthor().getAvatarUrl());
+                user.append("name", event.getAuthor().getName());
                 user.append("level", currentLevel + 1);
                 user.append("xp", 0);
                 collection.replaceOne(new Document("userId", userId), user);
