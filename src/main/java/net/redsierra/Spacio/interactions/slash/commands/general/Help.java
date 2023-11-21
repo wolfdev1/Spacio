@@ -2,6 +2,7 @@ package net.redsierra.Spacio.interactions.slash.commands.general;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.redsierra.Spacio.config.BotConfig;
 import net.redsierra.Spacio.events.SlashCommandInteraction;
@@ -75,8 +76,10 @@ public class Help extends Command {
                     .addField("Moderation Commands", String.join(", ", mdcmds), false)
                     .setTimestamp(Instant.now())
                     .setFooter("Requested by " + event.getUser().getGlobalName(), event.getUser().getAvatarUrl());
-
-            event.replyEmbeds(embed.build()).queue();
+            event.deferReply().queue();
+            InteractionHook hook = event.getHook();
+            hook.sendMessage("Loading...").setEphemeral(true).queue();
+            hook.editOriginal("Here is the Help main page").setEmbeds (embed.build()).queueAfter(5, java.util.concurrent.TimeUnit.SECONDS);
 
         } else {
             OptionMapping option = event.getOption("command");
@@ -109,7 +112,10 @@ public class Help extends Command {
                         .setTimestamp(Instant.now())
                         .setFooter("Requested by " + event.getUser().getGlobalName(), event.getUser().getAvatarUrl());
 
-                event.replyEmbeds(embed.build()).queue();
+                event.deferReply().queue();
+                InteractionHook hook = event.getHook();
+                hook.sendMessage("Loading...").setEphemeral(true).queue();
+                hook.editOriginal("Here is the help page for the selected command").setEmbeds(embed.build()).queueAfter(5, java.util.concurrent.TimeUnit.SECONDS);
 
             }
 

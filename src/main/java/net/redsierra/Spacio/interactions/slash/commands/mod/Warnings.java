@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.InteractionHook;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.redsierra.Spacio.config.BotConfig;
 import net.redsierra.Spacio.events.SlashCommandInteraction;
@@ -17,6 +18,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class Warnings extends Command {
 
@@ -45,6 +47,10 @@ public class Warnings extends Command {
 
             List<String[]> l = getUserWarnings(c, user.getId());
 
+            event.deferReply().queue();
+            InteractionHook hook = event.getHook();
+            hook.sendMessage("Loading...").setEphemeral(true).queue();
+
             if (l.size() > 0) {
 
                 StringBuilder str = new StringBuilder();
@@ -62,6 +68,7 @@ public class Warnings extends Command {
                     str3.append(Objects.requireNonNull(event.getGuild().getMemberById(strings[2])).getAsMention()).append("\n");
                 }
 
+
                 EmbedBuilder eb = new EmbedBuilder()
                         .setColor(Color.decode( (l.size() < 3 ?  "#79abc9" : "#7634fa") ))
                         .setAuthor(user.getName(), null, user.getAvatarUrl())
@@ -73,9 +80,9 @@ public class Warnings extends Command {
                         .setTimestamp(Instant.now())
                         .setFooter("To clear a warning, use /clearwarn.");
 
-                event.replyEmbeds(eb.build()).setEphemeral(true).queue();
+                hook.editOriginal("Here is the warnings of selected user").setEmbeds(eb.build()).queueAfter(7, TimeUnit.SECONDS);
             } else {
-                event.reply("This user has no warnings. All clear").setEphemeral(true).queue();
+                hook.editOriginal("This user has no warnings. All clear").queue();
         }
     }
 
