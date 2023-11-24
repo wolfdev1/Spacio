@@ -24,7 +24,7 @@ public class SetWelcomeChannel extends Command {
         SlashCommandInteractionEvent event = ev.getEvent();
         Channel ch = Objects.requireNonNull(event.getOption("channel")).getAsChannel();
         MongoDatabase db = config.getDatabase();
-        if (config.getCommandsChannelId() != null) {
+        if (config.getWelcomeChannelId() != null) {
             db.getCollection("botchannels").updateOne(new Document("name", "welcome"), new Document("$set", new Document("id", ch.getId())));
         } else {
             db.getCollection("botchannels").insertOne(new Document("name", "welcome").append("id", ch.getId()));
