@@ -24,10 +24,10 @@ public class RemoveXpChannel extends Command {
         MongoDatabase db = config.getDatabase();
         Channel ch = Objects.requireNonNull(event.getOption("channel")).getAsChannel();
 
-        if (db.getCollection("xpChannels").find(new Document("channelId", ch.getId())).first() == null) {
+        if (db.getCollection("xpchannels").find(new Document("channelId", ch.getId())).first() == null) {
             event.reply("This channel is not an XP channel.").queue();
         } else {
-            db.getCollection("xpChannels").deleteOne(new Document("channelId", ch.getId()));
+            db.getCollection("xpchannels").deleteOne(new Document("channelId", ch.getId()));
             event.reply("The channel has been removed from the XP channels list.").queue();
         }
     }

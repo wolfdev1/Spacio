@@ -18,12 +18,12 @@ public class BotConfig {
 
     private final Database database;
     private final JSONObject file;
-    private final MongoCollection<Document> textChannels;
+    private final MongoCollection<Document> botChannels;
 
     public BotConfig() {
         this.database = new Database(this);
         this.file = getConfigFile();
-        this.textChannels = database.getDatabase().getCollection("text_channels");
+        this.botChannels = database.getDatabase().getCollection("botchannels");
     }
 
     public JSONObject getConfigFile() {
@@ -57,7 +57,7 @@ public class BotConfig {
 
     private String getChannelIdByName(String channelName) {
         try {
-            return Objects.requireNonNull(textChannels.find(new Document("name", channelName)).first()).getString("id");
+            return Objects.requireNonNull(botChannels.find(new Document("name", channelName)).first()).getString("id");
         } catch (NullPointerException e) {
             return null;
         }

@@ -1,6 +1,7 @@
 package net.redsierra.Spacio.events;
 
 
+import com.mongodb.client.MongoDatabase;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
@@ -8,24 +9,32 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import net.redsierra.Spacio.Spacio;
 import net.redsierra.Spacio.config.BotConfig;
+import net.redsierra.Spacio.database.Database;
 import net.redsierra.Spacio.interactions.slash.commands.general.*;
 import net.redsierra.Spacio.interactions.slash.commands.mod.*;
 import net.redsierra.Spacio.interactions.slash.commands.mod.config.*;
 import net.redsierra.Spacio.interactions.slash.commands.music.*;
+import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
+
 public class Ready extends ListenerAdapter {
 
     TextChannel channel;
+
+    public Ready() {
+        Database database = new Database(new BotConfig());
+    }
+
     @Override
     public void onReady(@NotNull ReadyEvent event) {
         BotConfig config = new BotConfig();
 
         Guild guild = event.getJDA().getGuildById(config.getDefaultGuildId());
         assert guild != null;
-
 
         if (config.getCommandsChannelId() == null) {
             guild.getTextChannels().get(0).sendMessage("The commands channel has not been set. Please set it using `/setcommandschannel`.").queue();
@@ -76,6 +85,20 @@ public class Ready extends ListenerAdapter {
                  channel.sendMessage("**Spacio** has been deployed to development (locally) using version **" + config.getProjectVersion() + "**").queue();
 
              }
+
+            MongoDatabase db = config.getDatabase();
+            List<TextChannel> textChannels = guild.getTextChannels();
+
+            for (TextChannel channel : textChannels) {
+                String channelId = channel.getId();
+                Document channelDoc = db.getCollection("guildchannels").find(new Document("id", channelId)).first();
+
+                if (channelDoc == null) {
+                    db.getCollection("guildchannels").insertOne(new Document("id", channelId));
+                } else if (channelDoc.get("name") == null) {
+                    db.getCollection("guildchannels").updateOne(new Document("id", channelId), new Document("$set", new Document("name", channel.getName())));
+                }
+            }
 
          } catch (Exception e) {
              channel.sendMessage("Error occured while registering commands. Please report to the developers").queue();

@@ -25,9 +25,9 @@ public class SetWelcomeChannel extends Command {
         Channel ch = Objects.requireNonNull(event.getOption("channel")).getAsChannel();
         MongoDatabase db = config.getDatabase();
         if (config.getCommandsChannelId() != null) {
-            db.getCollection("text_channels").updateOne(new Document("name", "welcome"), new Document("$set", new Document("id", ch.getId())));
+            db.getCollection("botchannels").updateOne(new Document("name", "welcome"), new Document("$set", new Document("id", ch.getId())));
         } else {
-            db.getCollection("text_channels").insertOne(new Document("name", "welcome").append("id", ch.getId()));
+            db.getCollection("botchannels").insertOne(new Document("name", "welcome").append("id", ch.getId()));
         }
         event.reply("The welcome channel has been set to " + ch.getAsMention()).setEphemeral(true).queue();
 

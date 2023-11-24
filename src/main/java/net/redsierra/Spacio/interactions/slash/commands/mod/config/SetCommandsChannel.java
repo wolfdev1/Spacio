@@ -25,9 +25,9 @@ public class SetCommandsChannel extends Command {
         Channel ch = Objects.requireNonNull(event.getOption("channel")).getAsChannel();
         MongoDatabase db = config.getDatabase();
         if (config.getCommandsChannelId() != null) {
-            db.getCollection("text_channels").updateOne(new Document("name", "commands"), new Document("$set", new Document("id", ch.getId())));
+            db.getCollection("botchannels").updateOne(new Document("name", "commands"), new Document("$set", new Document("id", ch.getId())));
         } else {
-            db.getCollection("text_channels").insertOne(new Document("name", "commands").append("id", ch.getId()));
+            db.getCollection("botchannels").insertOne(new Document("name", "commands").append("id", ch.getId()));
         }
         event.reply("The commands channel has been set to " + ch.getAsMention()).setEphemeral(true).queue();
 

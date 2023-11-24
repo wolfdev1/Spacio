@@ -25,10 +25,10 @@ public class SetReportsChannel extends Command {
         Channel ch = Objects.requireNonNull(event.getOption("channel")).getAsChannel();
         MongoDatabase db = config.getDatabase();
         if (config.getReportsChannel() != null) {
-            db.getCollection("text_channels").deleteOne(new Document("name", "reports"));
-            db.getCollection("text_channels").insertOne(new Document("name", "reports").append("id", ch.getId()));
+            db.getCollection("botchannels").deleteOne(new Document("name", "reports"));
+            db.getCollection("botchannels").insertOne(new Document("name", "reports").append("id", ch.getId()));
         } else {
-            db.getCollection("text_channels").insertOne(new Document("name", "reports").append("id", ch.getId()));
+            db.getCollection("botchannels").insertOne(new Document("name", "reports").append("id", ch.getId()));
         }
         event.reply("The reports logs channel has been set to " + ch.getAsMention()).setEphemeral(true).queue();
 

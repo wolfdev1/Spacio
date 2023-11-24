@@ -25,10 +25,10 @@ public class AddXpChannel extends Command {
         SlashCommandInteractionEvent event = commandEvent.getEvent();
         Channel channel = Objects.requireNonNull(event.getOption("channel")).getAsChannel();
         Document doc = new Document("id", channel.getId());
-        if (db.getCollection("xp_channels").find(doc).first() != null) {
+        if (db.getCollection("xpchannels").find(doc).first() != null) {
             event.reply("This channel is already in the xp system.").setEphemeral(true).queue();
         }
-        db.getCollection("xp_channels").insertOne(new Document("id", channel.getId()));
+        db.getCollection("xpchannels").insertOne(new Document("id", channel.getId()));
         event.reply("The channel " + channel.getAsMention() + " has been added to the xp system.").setEphemeral(true).queue();
 
 
