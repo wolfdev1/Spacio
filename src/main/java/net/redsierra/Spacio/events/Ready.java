@@ -45,7 +45,7 @@ public class Ready extends ListenerAdapter {
             Document channelDoc = db.getCollection("guildchannels").find(new Document("id", channelId)).first();
             boolean parent = channel.getParentCategory() == null;
 
-            boolean p = guild.getPublicRole().getPermissions().contains(Permission.VIEW_CHANNEL);
+            boolean p = !guild.getPublicRole().getPermissions().contains(Permission.VIEW_CHANNEL);
             Document doc = new Document("id", channelId)
                     .append("name", channel.getName())
                     .append("private", p)
