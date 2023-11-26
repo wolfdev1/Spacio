@@ -53,12 +53,12 @@ public class Ready extends ListenerAdapter {
                     .append("private", p)
                     .append("nsfw", channel.isNSFW())
                     .append("slowmode", channel.getSlowmode())
-                    .append("topic", channel.getTopic())
+                    .append("topic", (channel.getTopic() == null ? "null" : channel.getTopic()))
                     .append("position", channel.getPosition())
                     .append("parent_id", (parent ? "null" : channel.getParentCategory().getId()))
                     .append("parent_name", (parent ? "null" : channel.getParentCategory().getName()))
                     .append("type", channel.getType().toString())
-                    .append("time_created", channel.getTimeCreated().toInstant().toEpochMilli());
+                    .append("time_created", String.valueOf(channel.getTimeCreated().toInstant().toEpochMilli()));
 
             if (channelDoc == null) {
                 db.getCollection("guildchannels").insertOne(doc);
