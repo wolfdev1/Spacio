@@ -2,7 +2,10 @@ package net.redsierra.Spacio.events;
 
 
 import com.mongodb.client.MongoDatabase;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.IPermissionHolder;
+import net.dv8tion.jda.api.entities.PermissionOverride;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -36,6 +39,34 @@ public class Ready extends ListenerAdapter {
         Guild guild = event.getJDA().getGuildById(config.getDefaultGuildId());
         assert guild != null;
 
+        MongoDatabase db = config.getDatabase();
+        List<TextChannel> textChannels = guild.getTextChannels();
+
+        for (TextChannel channel : textChannels) {
+            String channelId = channel.getId();
+            Document channelDoc = db.getCollection("guildchannels").find(new Document("id", channelId)).first();
+            boolean parent = channel.getParentCategory() == null;
+
+            boolean p = guild.getPublicRole().getPermissions().contains(Permission.VIEW_CHANNEL);
+            Document doc = new Document("id", channelId)
+                    .append("name", channel.getName())
+                    .append("private", p)
+                    .append("nsfw", channel.isNSFW())
+                    .append("slowmode", channel.getSlowmode())
+                    .append("topic", channel.getTopic())
+                    .append("position", channel.getPosition())
+                    .append("parent_id", (parent ? "null" : channel.getParentCategory().getId()))
+                    .append("parent_name", (parent ? "null" : channel.getParentCategory().getName()))
+                    .append("type", channel.getType().toString())
+                    .append("time_created", channel.getTimeCreated().toInstant().toEpochMilli());
+
+            if (channelDoc == null) {
+                db.getCollection("guildchannels").insertOne(doc);
+            } else if (!channelDoc.isEmpty()) {
+                db.getCollection("guildchannels").replaceOne(new Document("id", channelId), doc);
+            }
+        }
+
         if (config.getCommandsChannelId() == null) {
             guild.getTextChannels().get(0).sendMessage("The commands channel has not been set. Please set it using `/setcommandschannel`.").queue();
         } else {
@@ -46,7 +77,6 @@ public class Ready extends ListenerAdapter {
              SlashCommandHandler.registerCommand(new SetCommandsChannel().getName(), new SetCommandsChannel());
 
         try {
-
              SlashCommandHandler.registerCommand(new Rank().getName(), new Rank());
              SlashCommandHandler.registerCommand(new Warn().getName(), new Warn());
              SlashCommandHandler.registerCommand(new ClearWarn().getName(), new ClearWarn());
@@ -85,20 +115,6 @@ public class Ready extends ListenerAdapter {
                  channel.sendMessage("**Spacio** has been deployed to development (locally) using version **" + config.getProjectVersion() + "**").queue();
 
              }
-
-            MongoDatabase db = config.getDatabase();
-            List<TextChannel> textChannels = guild.getTextChannels();
-
-            for (TextChannel channel : textChannels) {
-                String channelId = channel.getId();
-                Document channelDoc = db.getCollection("guildchannels").find(new Document("id", channelId)).first();
-
-                if (channelDoc == null) {
-                    db.getCollection("guildchannels").insertOne(new Document("id", channelId));
-                } else if (channelDoc.get("name") == null) {
-                    db.getCollection("guildchannels").updateOne(new Document("id", channelId), new Document("$set", new Document("name", channel.getName())));
-                }
-            }
 
          } catch (Exception e) {
              channel.sendMessage("Error occured while registering commands. Please report to the developers").queue();
