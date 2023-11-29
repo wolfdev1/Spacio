@@ -1,8 +1,5 @@
 package net.redsierra.Spacio.events;
 
-
-import com.mongodb.client.MongoDatabase;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
@@ -10,25 +7,17 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import net.redsierra.Spacio.Spacio;
 import net.redsierra.Spacio.config.BotConfig;
-import net.redsierra.Spacio.database.Database;
 import net.redsierra.Spacio.interactions.slash.commands.general.*;
 import net.redsierra.Spacio.interactions.slash.commands.mod.*;
 import net.redsierra.Spacio.interactions.slash.commands.mod.config.*;
 import net.redsierra.Spacio.interactions.slash.commands.music.*;
-import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.List;
-
 public class Ready extends ListenerAdapter {
 
     TextChannel channel;
-
-    public Ready() {
-        Database database = new Database(new BotConfig());
-    }
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
@@ -37,33 +26,7 @@ public class Ready extends ListenerAdapter {
         Guild guild = event.getJDA().getGuildById(config.getDefaultGuildId());
         assert guild != null;
 
-        MongoDatabase db = config.getDatabase();
-        List<TextChannel> textChannels = guild.getTextChannels();
-
-        for (TextChannel channel : textChannels) {
-            String channelId = channel.getId();
-            Document channelDoc = db.getCollection("guildchannels").find(new Document("id", channelId)).first();
-            boolean parent = channel.getParentCategory() == null;
-
-            boolean p = !guild.getPublicRole().getPermissions().contains(Permission.VIEW_CHANNEL);
-            Document doc = new Document("id", channelId)
-                    .append("name", channel.getName())
-                    .append("private", p)
-                    .append("nsfw", channel.isNSFW())
-                    .append("slowmode", channel.getSlowmode())
-                    .append("topic", (channel.getTopic() == null ? "null" : channel.getTopic()))
-                    .append("position", channel.getPosition())
-                    .append("parent_id", (parent ? "null" : channel.getParentCategory().getId()))
-                    .append("parent_name", (parent ? "null" : channel.getParentCategory().getName()))
-                    .append("type", channel.getType().toString())
-                    .append("time_created", String.valueOf(channel.getTimeCreated().toInstant().toEpochMilli()));
-
-            if (channelDoc == null) {
-                db.getCollection("guildchannels").insertOne(doc);
-            } else if (!channelDoc.isEmpty()) {
-                db.getCollection("guildchannels").replaceOne(new Document("id", channelId), doc);
-            }
-        }
+        new ReadyUpdateAPI().updateAPI(config.getDatabase(), guild);
 
         if (config.getCommandsChannelId() == null) {
             guild.getTextChannels().get(0).sendMessage("The commands channel has not been set. Please set it using `/setcommandschannel`.").queue();
