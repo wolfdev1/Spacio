@@ -78,8 +78,7 @@ public class Help extends Command {
                     .setFooter("Requested by " + event.getUser().getGlobalName(), event.getUser().getAvatarUrl());
             event.deferReply().queue();
             InteractionHook hook = event.getHook();
-            hook.sendMessage("Loading...").setEphemeral(true).queue();
-            hook.editOriginal("Here is the Help main page").setEmbeds (embed.build()).queueAfter(5, java.util.concurrent.TimeUnit.SECONDS);
+            hook.editOriginal("").setEmbeds (embed.build()).queueAfter(5, java.util.concurrent.TimeUnit.SECONDS);
 
         } else {
             OptionMapping option = event.getOption("command");
@@ -114,8 +113,7 @@ public class Help extends Command {
 
                 event.deferReply().queue();
                 InteractionHook hook = event.getHook();
-                hook.sendMessage("Loading...").setEphemeral(true).queue();
-                hook.editOriginal("Here is the help page for the selected command").setEmbeds(embed.build()).queueAfter(5, java.util.concurrent.TimeUnit.SECONDS);
+                hook.editOriginal("").setEmbeds(embed.build()).queueAfter(5, java.util.concurrent.TimeUnit.SECONDS);
 
             }
 

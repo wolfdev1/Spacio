@@ -68,6 +68,7 @@ public class Register {
                         .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.KICK_MEMBERS)),
                 Commands.slash("ticket", "Create a ticket."),
                 Commands.slash("editticket", "Edit a ticket."),
+                Commands.slash("leaderboard", "Get the top 5 users with the most xp."),
                 Commands.slash("roles", "Get your info roles.")
 
         ).queue();

@@ -54,6 +54,7 @@ public class Ready extends ListenerAdapter {
              SlashCommandHandler.registerCommand(new Report().getName(), new Report());
              SlashCommandHandler.registerCommand(new Help().getName(), new Help());
              SlashCommandHandler.registerCommand(new Mute().getName(), new Mute());
+             SlashCommandHandler.registerCommand(new Leaderboard().getName(), new Leaderboard());
              SlashCommandHandler.registerCommand(new WhoIs().getName(), new WhoIs());
              SlashCommandHandler.registerCommand(new UnMute().getName(), new UnMute());
              SlashCommandHandler.registerCommand(new Fact().getName(), new Fact());
