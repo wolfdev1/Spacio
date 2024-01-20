@@ -1,6 +1,7 @@
 package net.redsierra.Spacio;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
@@ -10,8 +11,9 @@ import net.redsierra.Spacio.config.BotConfig;
 
 public class Register {
 
-    public void reigsterCommands(JDA jda) {
+    public static void main(String[] args)  {
         BotConfig config = new BotConfig();
+        JDA jda = JDABuilder.createDefault(config.getBotToken()).build();
         Guild guild = jda.getGuildById(config.getDefaultGuildId());
         assert guild != null;
         guild.updateCommands().addCommands(

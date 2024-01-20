@@ -56,7 +56,6 @@ public class Spacio {
                 .build();
 
         jda.awaitReady();
-        new Register().reigsterCommands(jda);
 
 
     }
